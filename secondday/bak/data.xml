@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<bookstore>
+  <book>
+    <name>三国演义</name>
+    <category>文学</category>
+    <desc>描述1</desc>
+  </book>
+  <book>
+    <name>水浒</name>
+    <category>文学</category>
+    <desc>描述2</desc>
+  </book>
+  <book>
+    <name>西游</name>
+    <category>文学</category>
+    <desc>描述3</desc>
+  </book>
+  <book>
+    <name>红楼</name>
+    <category>文学</category>
+    <desc>描述4</desc>
+  </book>
+</bookstore>

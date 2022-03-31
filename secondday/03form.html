@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生ajax</title>
+  <script type="text/javascript">
+  window.onload = function(){
+    //第一步：创建xhr对象
+    var xhr = null;
+    if(window.XMLHttpRequest){//标准浏览器
+      xhr = new XMLHttpRequest();
+    }else{//早期的IE浏览器
+      xhr = new ActiveXObject('Microsoft.XMLHTTP')
+    }
+    //console.log("状态q"+xhr.readyState);  //q0
+    //第二步：准备发送请求-配置发送请求的一些行为
+    xhr.open('get','03form.php',true);
+    //console.log("状态w"+xhr.readyState); //w1
+
+    //第三步：执行发送的动作
+    xhr.send(null);
+    //console.log("状态e"+xhr.readyState); //e1 
+
+    //第四步：指定一下回调函数
+    xhr.onreadystatechange = function(){
+      //console.log("状态t"+xhr.readyState); //t2 t3 t4
+      if(xhr.readyState == 4){
+        if(xhr.status == 200){
+          var data = xhr.responseText; //json
+        }
+      }
+    }
+    //console.log("状态r"+xhr.readyState); //r1 
+
+
+    /*
+    xhr.readySatate
+    0:XMLHttpRequest 对象创建完成
+    1：表示发送请求的动作准备好了，但是还没有开始发送
+    2：表示已经发送完成
+    3：服务器已经返回了数据 
+    4：服务器返回的数据已经可以使用
+    */
+  }
+</script>
+</head>
+<body>
+  <div id="showInfo"></div>
+  <form id="form">
+    用户名：<input type="text" name="username" id="username" /><br>
+    密码：<input type="password" name="password" id="password" />
+    <input id="btn" type="button" value="提交" />
+  </form>
+</body>
+</html>

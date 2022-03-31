@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>function专题</title>
+</head>
+<body>
+  <script>
+    function JuiceMachine(fruit){
+      this.fruit = fruit;
+      this.produceJuice = function(){
+        console.log(this.fruit + '果汁');
+      }
+    }
+
+    //JuiceMachine.produceJuice(); 会报错：因为这个没有this，没有通过new 关键字出来的，那个构造函数的this就不知道是谁，但是通过后面这个函数“.”拓展的就可以。
+    //没有定义在原型上，那么这些新增的是在这个“果汁机上的”，按原理来说new出的“果汁”如果拥有“打开”功能和“品牌”也是不合理的。
+    JuiceMachine.brand = '九阳';
+    JuiceMachine.open = function(){
+      console.log('open');
+    }
+
+    var apple = new JuiceMachine('苹果')
+    apple.produceJuice();
+
+    var orange = new JuiceMachine('橘子')
+    apple.produceJuice();
+
+    //结论：function有双重身份：
+    //1、对象
+    //2、构造函数
+  </script>
+
+</body>
+</html>
