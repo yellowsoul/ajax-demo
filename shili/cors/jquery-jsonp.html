@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jquery跨域jsonp</title>
+</head>
+<body>
+  <input type="button" id="btn" value="点击">
+  <script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+  <script>
+    $.ajax({
+      type:"get",
+      async:false,
+      url:"./jsonp.php",
+      dataType:"jsonp",
+      jsonp:"cb",//传递给请求处理程序或者页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+      jsonpCallback:"callback",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名(类似：Jquery1102016820125757572048_1450147653563(["zhangsan","lisi","wangwu"]);)
+      success:function(json){
+        console.log(json);
+      },
+      error:function(){
+        console.log('fail');
+      }
+    })
+  </script>
+</body>
+</html>
