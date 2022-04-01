@@ -76,7 +76,6 @@
       btn.onclick = function(){
         var cityCode = city.value;
         var url = 'http://cdn.weather.hao.360.cn/api_weather_info.php?app=hao360&_jsonp=weather&code='+city.value;
-        
         var script = document.createElement('script');
         script.src = url;
         document.body.appendChild(script);
