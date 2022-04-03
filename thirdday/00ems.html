@@ -106,6 +106,8 @@ window.onload = function(){
       asyn:true,
       success:function(data){
         alert(data);
+      },failure:function(){
+        alert('错误');
       }
     };
     ajax(param);

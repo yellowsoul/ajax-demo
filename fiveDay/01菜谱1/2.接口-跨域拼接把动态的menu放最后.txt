@@ -1,0 +1,5 @@
+http://apis.juhe.cn/cook/query?key=3e1dcd706f3f21875c6d7c5035351d75&rn=10&pn=3&dtype=jsonp&callback=handle&menu=%E8%A5%BF%E7%BA%A2%E6%9F%BF
+
+【pn:索引，rn:条数】
+解析后相当于：
+http://apis.juhe.cn/cook/query?key=3e1dcd706f3f21875c6d7c5035351d75&rn=3&pn=0&dtype=jsonp&callback=handle&menu=西红柿

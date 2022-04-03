@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMS</title>
+  <style>
+    #ems{
+      position: absolute;
+      left: 50%;
+      width:400px;
+      height:auto;
+      margin-left: -200px;
+      background:lightGreen;
+      text-align: center;
+      min-height: 50px;
+      height: 500px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #ems input{
+      height:25px;
+      margin-top:10px;
+    }
+    #list{
+      background:lightblue;
+    }
+    #list li{
+      text-align:left;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="ems">
+    <div>
+      <input type="text" id="code">
+      <input type="button" value="查询" id="btn">
+    </div>
+    <div id="list">
+
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+
+function ajax(param){
+  //data = {data:"",dataType:"xml/json",type:"get/post",url:"",asyn:"true/false",success:function(){},failure:function(){}}
+
+  //data:{username:123,password:456} //jq做法
+  //data = 'username=123&password=456'; //简单的
+  var dt = param.dataType;//jsonp
+  if(dt == 'jsonp'){
+    //向window对象上面加了一个属性:jQuery1412321312312312
+    var fnName = 'jQuery'+new Data().getTime();
+    if(param.jsonpcallback){
+      fnName = param.jsonpCallback;
+    }
+
+    window[fnName] = function(d){
+      param.success(d);
+    }
+
+    // window.liudehua = function(data){
+    //   data.success(data);
+    // }
+
+    var script = document.createElement("script");
+    script.src = param.url+"?cb="+fnName;
+
+    document.body.appendChild(script);
+
+    //liudehua({name:123});
+    return false;
+    //jQuery1412321312312312({name:123});
+  }
+
+
+
+
+
+
+
+
+
+
+    //第一步：创建xhr对象
+  var xhr = null;
+  if(window.XMLHttpRequest){//标准的浏览器
+    xhr = new XMLHttpRequest();
+  }else{
+    xhr = new ActiveXObject('Microsoft.XMLHTTP');
+  }
+  //第二步：准备发送前的一些配置参数
+  var type = param.type == 'get'?'get':'post';//请求方式
+  var url = '';//请求地址
+  if(param.url){
+    url = param.url;
+    if(type == 'get'){
+        url += "?" + param.data + "&_t="+new Date().getTime();//添加时间戳为了防止缓存
+    }
+  }
+  var flag = param.asyn == 'true'?'true':'false';//异步和同步状态标识
+  xhr.open(type,url,flag);
+
+  //第三步：执行发送的动作
+  if(type == 'get'){
+    xhr.send(null);
+  }else if(type == 'post'){
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");//post表单提交处理编码问题
+    xhr.send(param.data)
+  }
+
+  //第四步：指定回调函数
+  xhr.onreadystatechange = function(){
+    //readyState等于4表示服务器端已经响应成功客户端的请求（但是成功与否未知）
+    if(this.readyState == 4){//所以需要再进行成功与否的判断（200表示成功返回数据，404表示未找到这个资源，500表示服务器端错误，除了这些常见的http状态码，还有好多别的状态值）
+      if(this.status == 200){
+        if(typeof param.success == 'function'){
+          var d = param.dataType == 'xml'?xhr.responseXML:xhr.responseText;
+          //成功时调用回调函数，也就是参数传递过来的回调函数
+          param.success(d);
+        }
+      }else{
+        if(typeof data.failure == 'function'){
+          //失败时调用回调函数，也就是参数传递过来的回调函数
+          param.failure();
+        }
+      }
+    }
+  }
+
+}
+
+window.onload = function(){
+  //注册按钮单击事件
+  var btn = document.getElementById('btn');
+  btn.onclick = function(){
+    //这里是传递给ajax的参数
+    var param = {
+      url:"http://cdn.weather.hao.360.cn/api_weather_info.php?app=hao360&_jsonp=weather&code=101010100",
+      type:'get',
+      dataType:'jsonp',
+      asyn:true,
+      success:function(data){
+        alert(data);
+      }
+    };
+    //调用封装好的通用ajax函数
+    ajax(param);
+
+
+    ajax({
+      url:'http://cdn.weather.hao.360.cn/api_weather_info.php?app=hao360&_jsonp=weather&code=101010100',
+      type:'get',
+      dataType:'jsonp',
+      jsonpCallback:"liudehua",
+      success:function(data){
+        alert(data);
+      }
+    });
+  }
+}
+//练习题：用封装好的方法去实现昨天的EMS查询
+</script>
+</html>

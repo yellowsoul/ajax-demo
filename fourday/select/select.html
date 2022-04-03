@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三级联动</title>
+  <style>
+    #showInfo div select{
+      width:160px;
+    }
+  </style>
+  <script src="jquery-1.10.1.min.js"></script>
+  <script>
+    $(function(){
+      //通用的请求函数
+      function callback(id,code,flag){
+        $.ajax({
+          url:'data.php',
+          type:'get',
+          dataType:'jsonp',
+          data:{citycode:code,flag:flag},
+          success:function(data){
+            //console.log(data);对应数据格式里面去看
+            $.each(data,function(i,element){
+              var op = $("<option></option>").attr("value",element.code).append(element.name);
+              $("#"+id).append(op);
+            });
+          }
+        });
+      }
+
+      //获取市信息
+      var area = function(cCode){
+        callback('area',cCode,3)
+      }
+      //获取市信息
+      var city = function(pCode){
+        callback('city',pCode,2)
+      }
+
+      //获取省份信息
+      var province = function(pCode){
+        callback('province',pCode,1)
+      }
+      //调用获取省份信息
+      province(0);
+      city('110000'); //110000 北京 查市填省
+      area('110100'); //110100 北京市 查区填市
+      //给省份注册选中事件
+      $("#province").change(function(){
+        $("#city").children("option").remove();
+        var pCode = $(this).val();
+        city(pCode);
+      });
+      //给市注册选中事件
+      $("#city").change(function(){
+        $("#area").children("option").remove();
+        var cCode = $(this).val();
+        area(cCode);
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="showInfo">
+    <div>
+      <select id="province">
+
+      </select>
+    </div>
+    <div>
+      <select id="city">
+      </select>
+    </div>
+    <div>
+      <select id="area">
+      </select>
+    </div>
+  </div>
+</body>
+</html>
